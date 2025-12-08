@@ -1,0 +1,16 @@
+server.port=8080
+spring.application.name=RetailSalesSystem
+logging.level.com.app=INFO
+
+# MongoDB Configuration
+# For local development - comment out when using MongoDB Atlas
+# spring.data.mongodb.host=localhost
+# spring.data.mongodb.port=27017
+# spring.data.mongodb.database=retail-sales
+
+# For MongoDB Atlas - Replace with your actual connection string
+# spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+
+# MongoDB settings
+# Disabled for MongoDB Atlas free tier (M0) - it doesn't support index creation
+spring.data.mongodb.auto-index-creation=false

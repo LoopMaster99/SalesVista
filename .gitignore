@@ -1,0 +1,42 @@
+# General
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Frontend (Node.js / React / Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+node_modules/
+dist/
+build/
+
+# Backend (Java / Spring Boot / Maven)
+backend/target/
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/hs_err_pid*
+target/
+*.class
+*.jar
+*.war
+
+# Logs
+logs/
+*.log
+
+# Large CSV data files (keep locally, excluded from git)
+backend/src/main/resources/data/*.csv
+backend/src/main/resources/application.properties
+
+
