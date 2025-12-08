@@ -11,7 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:3000") // Vite default, React default
+                .allowedOriginPatterns("*") // Allow all origins (Vercel, Localhost, etc.)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
     }
 }
