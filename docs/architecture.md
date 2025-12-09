@@ -7,20 +7,34 @@ The backend is built using **Spring Boot 3** and **Java 17**, following a layere
 *   **Controller Layer** (`com.app.controller`): Handles HTTP requests.
     *   `SalesController`: Exposes `/api/sales` endpoint.
 *   **Service Layer** (`com.app.service`): Contains business logic.
-    *   `SalesService`: Implements the filtering using Java Streams. It processes the list of `SalesRecord` objects based on `SalesQueryParams`.
-*   **Data Layer** (`com.app.data`, `com.app.util`):
-    *   `DataLoader`: Loads the CSV file into memory on startup (`@PostConstruct`).
-    *   `CsvParser`: Uses **Jackson CSV** to parse the `sales.csv` file into Java POJOs.
+    *   `SalesService`: Uses `MongoTemplate` to construct dynamic MongoDB queries and aggregations for filtering, sorting, and pagination.
+*   **Data Layer** (`com.app.data`, `com.app.repository`):
+    *   `SalesRepository`: Spring Data MongoDB repository for basic CRUD operations.
+    *   `DataLoader`: Loads the CSV file into MongoDB on startup if the database is empty (`@PostConstruct`).
+    *   `CsvParser`: Uses **Jackson CSV** to parse the `sales.csv` file.
 *   **Model Layer** (`com.app.model`):
-    *   `SalesRecord`: Maps 1:1 to the CSV columns.
+    *   `SalesRecord`: Maps 1:1 to MongoDB documents.
     *   `SalesQueryParams`: Captures search, filter, sort, and pagination parameters.
 
 ### Data Flow
-1.  CSV -> `DataLoader` (Memory)
-2.  Request -> `SalesController` -> `SalesService`.
-3.  `SalesService` creates a Stream from `DataLoader`.
-4.  Stream is Filtered (Search, Tags, Region, etc.) -> Sorted -> Paginated.
-5.  Result -> `SalesController` -> JSON Response.
+1.  **Startup**: CSV -> `DataLoader` -> `SalesRepository` -> **MongoDB**.
+2.  **Request**: Client -> `SalesController` -> `SalesService`.
+3.  **Query**: `SalesService` constructs a MongoDB Query/Aggregation based on parameters.
+4.  **Execution**: `MongoTemplate` executes the query against **MongoDB**.
+5.  **Response**: Result -> `SalesController` -> JSON Response.
+
+### Folder Structure
+```
+backend/
+├── src/main/java/com/app/
+│   ├── config/         # Configuration (CorsConfig)
+│   ├── controller/     # REST Controllers
+│   ├── data/           # Data Loading
+│   ├── model/          # Entities & POJOs
+│   ├── repository/     # Repositories
+│   ├── service/        # Business Logic
+│   └── util/           # Utilities (CsvParser)
+```
 
 ## 2. Frontend Architecture
 
@@ -33,6 +47,7 @@ The frontend is a **React 18** application built with **Vite**.
 
 ### Module Responsibilities
 *   **`components/ui`**: Reusable primitive components (Button, Input, Table, Select).
+*   **`components`**: Layout components (`Layout`, `Sidebar`).
 *   **`pages`**: formatting and business logic for specific views (`SalesPage`).
 *   **`services`**: API communication (`api.js` uses **Axios**).
 *   **`lib`**: Utilities (`cn` for class merging).
@@ -41,7 +56,10 @@ The frontend is a **React 18** application built with **Vite**.
 ```
 frontend/
 ├── src/
-│   ├── components/ui/  # Atoms (Button, Input, etc.)
+│   ├── components/
+│   │   ├── ui/         # Atoms (Button, Input, etc.)
+│   │   ├── Layout.jsx  # Main Layout
+│   │   └── Sidebar.jsx # Navigation Sidebar
 │   ├── pages/          # Views (SalesPage)
 │   ├── services/       # API calls
 │   ├── lib/            # Utils
@@ -49,6 +67,6 @@ frontend/
 ```
 
 ## 3. Design Decisions
-*   **In-Memory Database**: Since the dataset is a single CSV, we load it into memory for extremely fast filtering and sorting without the overhead of a SQL database.
-*   **Java Streams**: Used for clean, functional implementation of the complex filtering logic.
+*   **MongoDB**: Selected for its flexibility and ability to handle large datasets efficiently. It replaces the initial in-memory sorting/filtering to improve scalability.
+*   **MongoTemplate & Aggregation**: Used instead of simple repository methods to support complex, dynamic filtering conditions and efficient server-side calculations (e.g., total discounts).
 *   **Tailwind CSS**: Used to match the provided Figma/Screenshot aesthetics accurately and quickly.
