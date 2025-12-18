@@ -18,19 +18,20 @@ import {
 import { ThemeToggle } from './ui/theme-toggle';
 
 const Sidebar = ({ isOpen = true, onToggle }) => {
+    const { theme } = useTheme();
     const [servicesOpen, setServicesOpen] = useState(true);
     const [invoicesOpen, setInvoicesOpen] = useState(true);
 
     return (
-        <div className={`h-screen bg-[#F5F7FA] dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col font-sans transition-all duration-300 ${isOpen ? 'w-48' : 'w-0 overflow-hidden'
+        <div className={`h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col font-sans transition-all duration-300 ${isOpen ? 'w-48' : 'w-0 overflow-hidden'
             }`}>
             {/* Header / Profile */}
             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3">
-                <div className="w-10 h-10 bg-black dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
-                    <img src="/logo.jpg" alt="Vault Logo" className="w-full h-full object-cover" />
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 dark:from-gray-700 dark:to-gray-800 rounded-lg flex items-center justify-center p-2">
+                    <img src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} alt="SalesVista Logo" className="w-full h-full" />
                 </div>
                 <div className="flex-1">
-                    <h2 className="text-sm font-bold text-gray-900 dark:text-white">Vault</h2>
+                    <h2 className="text-sm font-bold text-gray-900 dark:text-white">SalesVista</h2>
                     <p className="text-xs text-gray-500 dark:text-gray-400">Anurag Yadav</p>
                 </div>
                 <ThemeToggle />
