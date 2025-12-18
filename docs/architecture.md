@@ -23,6 +23,22 @@ The backend is built using **Spring Boot 3** and **Java 17**, following a layere
 4.  **Execution**: `MongoTemplate` executes the query against **MongoDB**.
 5.  **Response**: Result -> `SalesController` -> JSON Response.
 
+```mermaid
+flowchart LR
+    Client[Client/Browser] --> Controller[SalesController]
+    Controller --> Service[SalesService]
+    Service --> MongoTemplate[MongoTemplate]
+    MongoTemplate --> MongoDB[(MongoDB)]
+    MongoDB --> MongoTemplate
+    MongoTemplate --> Service
+    Service --> Controller
+    Controller --> Client
+    
+    DataLoader[DataLoader] -.First Run.-> CSV[sales.csv]
+    CSV --> Repository[SalesRepository]
+    Repository --> MongoDB
+```
+
 ### Folder Structure
 ```
 backend/
@@ -70,3 +86,39 @@ frontend/
 *   **MongoDB**: Selected for its flexibility and ability to handle large datasets efficiently. It replaces the initial in-memory sorting/filtering to improve scalability.
 *   **MongoTemplate & Aggregation**: Used instead of simple repository methods to support complex, dynamic filtering conditions and efficient server-side calculations (e.g., total discounts).
 *   **Tailwind CSS**: Used to match the provided Figma/Screenshot aesthetics accurately and quickly.
+
+## 4. Database Schema
+
+### SalesRecord Model
+
+```mermaid
+classDiagram
+    class SalesRecord {
+        +String id
+        +String invoiceId
+        +String branch
+        +String city
+        +String customerType
+        +String gender
+        +String productLine
+        +Double unitPrice
+        +Integer quantity
+        +Double tax
+        +Double total
+        +LocalDate date
+        +LocalTime time
+        +String paymentMethod
+        +Double cogs
+        +Double grossMarginPercentage
+        +Double grossIncome
+        +Double rating
+    }
+```
+
+**Indexes:**
+- `customerType`: For efficient filtering by customer segment
+- `productLine`: For category-based queries
+- `date`: For date range filtering
+- Text index on `invoiceId` for search functionality
+
+**Storage:** MongoDB collection named `sales_records` with ~734K documents.
