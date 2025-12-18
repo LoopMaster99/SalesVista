@@ -102,15 +102,15 @@ export function SalesPage() {
     };
 
     return (
-        <div className="min-h-screen bg-background px-3 py-4 space-y-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-800 px-3 py-4 space-y-6">
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <h1 className="text-xl font-bold">Sales Management System</h1>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">Sales Management System</h1>
                 <div className="relative w-full md:w-80">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400 dark:text-gray-500" />
                     <Input
                         placeholder="Name, Phone no."
-                        className="pl-9 bg-muted/20"
+                        className="pl-9 bg-gray-100 dark:bg-gray-700 dark:text-white"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -260,7 +260,7 @@ export function SalesPage() {
             </div>
 
             {/* Table */}
-            <div className="rounded-md border bg-white shadow-sm overflow-x-auto -mt-6">
+            <div className="rounded-md border dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm overflow-x-auto -mt-6">
                 <Table>
                     <TableHeader className="bg-muted/30">
                         <TableRow>

@@ -15,29 +15,31 @@ import {
     File,
     Menu
 } from 'lucide-react';
+import { ThemeToggle } from './ui/theme-toggle';
 
 const Sidebar = ({ isOpen = true, onToggle }) => {
     const [servicesOpen, setServicesOpen] = useState(true);
     const [invoicesOpen, setInvoicesOpen] = useState(true);
 
     return (
-        <div className={`h-screen bg-[#F5F7FA] border-r border-gray-200 flex flex-col font-sans transition-all duration-300 ${isOpen ? 'w-48' : 'w-0 overflow-hidden'
+        <div className={`h-screen bg-[#F5F7FA] dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col font-sans transition-all duration-300 ${isOpen ? 'w-48' : 'w-0 overflow-hidden'
             }`}>
             {/* Header / Profile */}
-            <div className="p-4 border-b border-gray-200 flex items-center gap-3">
-                <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center overflow-hidden">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3">
+                <div className="w-10 h-10 bg-black dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
                     <img src="/logo.jpg" alt="Vault Logo" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1">
-                    <h2 className="text-sm font-bold text-gray-900">Vault</h2>
-                    <p className="text-xs text-gray-500">Anurag Yadav</p>
+                    <h2 className="text-sm font-bold text-gray-900 dark:text-white">Vault</h2>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Anurag Yadav</p>
                 </div>
+                <ThemeToggle />
                 <button
                     onClick={onToggle}
-                    className="p-1 hover:bg-gray-100 rounded transition-colors"
+                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                     title="Toggle sidebar"
                 >
-                    <Menu className="w-4 h-4 text-gray-400" />
+                    <Menu className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                 </button>
             </div>
 
@@ -54,7 +56,7 @@ const Sidebar = ({ isOpen = true, onToggle }) => {
                     <div className="pt-2">
                         <button
                             onClick={() => setServicesOpen(!servicesOpen)}
-                            className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md cursor-default"
+                            className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-default"
                         >
                             <div className="flex items-center gap-3">
                                 <Book size={20} />
@@ -78,7 +80,7 @@ const Sidebar = ({ isOpen = true, onToggle }) => {
                     <div className="pt-2">
                         <button
                             onClick={() => setInvoicesOpen(!invoicesOpen)}
-                            className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-md"
+                            className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
                         >
                             <div className="flex items-center gap-3">
                                 <FileText size={20} />
@@ -106,7 +108,7 @@ const Sidebar = ({ isOpen = true, onToggle }) => {
 const NavItem = ({ to, icon, label, disabled }) => {
     if (disabled) {
         return (
-            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-gray-600 cursor-default">
+            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 cursor-default">
                 {icon}
                 <span>{label}</span>
             </div>
@@ -117,8 +119,8 @@ const NavItem = ({ to, icon, label, disabled }) => {
             to={to}
             className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                    ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                 }`
             }
         >
@@ -131,7 +133,7 @@ const NavItem = ({ to, icon, label, disabled }) => {
 const SubNavItem = ({ to, icon, label, disabled }) => {
     if (disabled) {
         return (
-            <div className="flex items-center gap-3 px-3 py-2 text-sm rounded-md text-gray-500 cursor-default">
+            <div className="flex items-center gap-3 px-3 py-2 text-sm rounded-md text-gray-500 dark:text-gray-400 cursor-default">
                 {icon}
                 <span>{label}</span>
             </div>
@@ -142,8 +144,8 @@ const SubNavItem = ({ to, icon, label, disabled }) => {
             to={to}
             className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors ${isActive
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-700'
+                    : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
                 }`
             }
         >
