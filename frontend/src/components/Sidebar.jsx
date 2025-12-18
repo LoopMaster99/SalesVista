@@ -16,6 +16,9 @@ import {
     Menu
 } from 'lucide-react';
 import { ThemeToggle } from './ui/theme-toggle';
+import { useTheme } from '../context/ThemeContext';
+import logoLight from '../assets/logo-light.svg';
+import logoDark from '../assets/logo-dark.svg';
 
 const Sidebar = ({ isOpen = true, onToggle }) => {
     const { theme } = useTheme();
@@ -27,8 +30,8 @@ const Sidebar = ({ isOpen = true, onToggle }) => {
             }`}>
             {/* Header / Profile */}
             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 dark:from-gray-700 dark:to-gray-800 rounded-lg flex items-center justify-center p-2">
-                    <img src={theme === 'dark' ? '/logo-dark.svg' : '/logo-light.svg'} alt="SalesVista Logo" className="w-full h-full" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0">
+                    <img src={theme === 'dark' ? logoDark : logoLight} alt="SalesVista Logo" className="w-8 h-8" />
                 </div>
                 <div className="flex-1">
                     <h2 className="text-sm font-bold text-gray-900 dark:text-white">SalesVista</h2>
