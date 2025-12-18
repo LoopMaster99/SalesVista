@@ -216,7 +216,7 @@ export function SalesPage() {
                             const [sortBy, sortOrder] = e.target.value.split("-");
                             setSort({ sortBy, sortOrder });
                         }}
-                        className="w-[200px] bg-muted/20 border-none"
+                        className="w-[200px] bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
                     >
                         <option value="customerName-asc">Sort by: Name (A-Z)</option>
                         <option value="customerName-desc">Sort by: Name (Z-A)</option>
@@ -262,7 +262,7 @@ export function SalesPage() {
             {/* Table */}
             <div className="rounded-md border dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm overflow-x-auto -mt-6">
                 <Table>
-                    <TableHeader className="bg-muted/30">
+                    <TableHeader className="bg-gray-100 dark:bg-gray-800">
                         <TableRow>
                             <TableHead className="whitespace-nowrap">Transaction ID</TableHead>
                             <TableHead className="whitespace-nowrap">Date</TableHead>

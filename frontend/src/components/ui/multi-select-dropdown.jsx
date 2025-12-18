@@ -51,29 +51,29 @@ export function MultiSelectDropdown({
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-3 py-2 text-sm bg-muted/20 border-none rounded-md hover:bg-muted/30 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             >
-                <span className={`whitespace-nowrap ${selectedValues.length > 0 ? 'text-foreground' : 'text-muted-foreground'}`}>
+                <span className={`whitespace-nowrap ${selectedValues.length > 0 ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-600 dark:text-gray-400'}`}>
                     {getDisplayText()}
                 </span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 text-gray-600 dark:text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {isOpen && (
-                <div className="absolute z-50 mt-1 min-w-[200px] bg-white border border-gray-200 rounded-md shadow-lg max-h-64 overflow-y-auto">
+                <div className="absolute z-50 mt-1 min-w-[200px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg max-h-64 overflow-y-auto">
                     {/* Select All / Clear All */}
-                    <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 bg-gray-50">
+                    <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
                         <button
                             type="button"
                             onClick={handleSelectAll}
-                            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
                         >
                             Select All
                         </button>
                         <button
                             type="button"
                             onClick={handleClearAll}
-                            className="text-xs text-gray-600 hover:text-gray-700 font-medium"
+                            className="text-xs text-gray-600 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200 font-medium"
                         >
                             Clear All
                         </button>
@@ -84,15 +84,15 @@ export function MultiSelectDropdown({
                         {options.map((option) => (
                             <label
                                 key={option.value}
-                                className="flex items-center px-3 py-2 hover:bg-gray-50 cursor-pointer"
+                                className="flex items-center px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
                             >
                                 <input
                                     type="checkbox"
                                     checked={selectedValues.includes(option.value)}
                                     onChange={() => handleToggle(option.value)}
-                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
                                 />
-                                <span className="ml-2 text-sm text-gray-700">{option.label}</span>
+                                <span className="ml-2 text-sm text-gray-700 dark:text-gray-200">{option.label}</span>
                             </label>
                         ))}
                     </div>
