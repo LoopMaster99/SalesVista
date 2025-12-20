@@ -17,7 +17,7 @@ This project pushed me to learn MongoDB aggregation pipelines, understand free t
 
 ## 🌐 Live Demo
 
-**Frontend**: [sales-vista-six.vercel.app]
+**Frontend**: [https://sales-vista-six.vercel.app]
 **Backend API**: [https://salesvista.onrender.com]
 
 > **Note**: Backend may take 30-60 seconds to wake up on first request (free tier cold starts)
