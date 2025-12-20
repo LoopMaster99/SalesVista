@@ -7,11 +7,20 @@
 ![Vite](https://img.shields.io/badge/Vite-7-purple?logo=vite)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
 
-A retail sales dashboard showcasing enterprise-grade analytics with real-time search, filtering, sorting, and pagination capabilities for analyzing 734K+ sales transactions.
+A retail sales analytics dashboard built to explore full-stack development with real-world data challenges. Features real-time search, filtering, sorting, and pagination across 734K+ sales transactions.
 
 ## 🎯 Why I Built This
 
-To demonstrate the ability to build a production-ready full-stack application that handles large-scale data efficiently. This project showcases server-side processing, optimized database queries, and modern UI/UX design principles to create a responsive, performant analytics dashboard.
+I wanted to challenge myself by building something that handles real-world scale data, not just toy examples. Working with 734K records taught me about database optimization, query performance, and the trade-offs between different architectural choices. 
+
+This project pushed me to learn MongoDB aggregation pipelines, understand free tier limitations, and optimize queries. Every performance issue became a learning opportunity - from 1.9-minute response times down to sub-500ms through field projections and strategic indexing.
+
+## 🌐 Live Demo
+
+**Frontend**: [sales-vista-six.vercel.app]
+**Backend API**: [https://salesvista.onrender.com]
+
+> **Note**: Backend may take 30-60 seconds to wake up on first request (free tier cold starts)
 
 ## ✨ Key Features
 
@@ -20,11 +29,9 @@ To demonstrate the ability to build a production-ready full-stack application th
 - **Dynamic Sorting**: Server-side sorting on any column (ascending/descending)
 - **Efficient Pagination**: Load only what's needed with server-side pagination
 - **Responsive Design**: Clean, modern UI built with Tailwind CSS and custom components
-- **Performance**: Sub-second query times on 734K+ records
+- **Performance Optimized**: Sub-500ms query times on 734K+ records through field projections
 
 ## 🏗️ Architecture
-
-High-level system architecture and data flow visualization available in [docs/architecture.md](./docs/architecture.md).
 
 ```mermaid
 flowchart TD
@@ -56,7 +63,7 @@ flowchart TD
 
 ## 📊 Data Source
 
-The application uses retail sales data from a publicly available CSV dataset containing 734K+ transaction records. The data includes fields like customer demographics, product categories, pricing, payment methods, and timestamps.
+The application uses a retail sales publicly available dataset containing 734K+ transaction records with fields like customer demographics, product categories, pricing, payment methods, and timestamps.
 
 ## 🚀 Search, Filter, Sort & Pagination
 
@@ -72,27 +79,19 @@ MongoDB native sort using `Sort` objects generated from client parameters (field
 ### Pagination
 Strict server-side pagination with `skip()` and `limit()` - only requested data slices are fetched, keeping payloads small and UI responsive.
 
-## 💡 Technical Challenges & Solutions
-
-**Challenge 1: Performance with Large Dataset**
-- **Problem**: Initial in-memory filtering/sorting caused slow response times (1.9 minutes) and high memory usage
-- **Solution**: Migrated to MongoDB with `MongoTemplate` for database-level operations, achieving sub-second queries
-
-**Challenge 2: Dynamic Filter Construction**
-- **Problem**: Supporting flexible combinations of multi-select filters
-- **Solution**: Built dynamic `Criteria` construction that combines multiple filter arrays with proper logical operators
-
-**Challenge 3: MongoDB Atlas Free Tier Limits**
-- **Problem**: 512MB storage limit required dataset truncation
-- **Solution**: Disabled auto-indexing and optimized data import to fit ~700K records within constraints
-
 ## ⚡ Performance Optimizations
 
-- **Database Indexing**: Strategic indexes on frequently queried fields (customerType, productLine, date)
-- **Server-Side Processing**: All heavy operations (search, filter, sort, paginate) happen in MongoDB
-- **Lazy Loading**: Pagination ensures only 20-50 records loaded at a time
-- **Optimized Queries**: MongoTemplate aggregation pipelines minimize data transfer
+- **Field Projections**: Fetch only 17 essential fields instead of all 30+, reducing data transfer by 70%
+- **Strategic Indexing**: Single index on `customerRegion` (most-queried field) within free tier constraints
+- **Database-Level Operations**: All heavy operations (search, filter, sort, paginate) happen in MongoDB
+- **Aggregation Pipelines**: Efficient totals calculation using MongoDB aggregation framework
+- **Lazy Loading**: Pagination ensures only 10-50 records loaded at a time
 - **CSV Import Optimization**: One-time data load on first startup with existence check
+
+**Performance Metrics:**
+- Query Response Time: 300-500ms (down from 1.9 minutes)
+- Data Transfer: ~150KB per page (down from ~500KB)
+- Memory Usage: Minimal (no in-memory data loading)
 
 ## 🚀 Setup Instructions
 
@@ -100,7 +99,7 @@ Strict server-side pagination with `skip()` and `limit()` - only requested data 
 - Java 17+
 - Maven 3.6+
 - Node.js 18+ & npm
-- MongoDB (Atlas or Local)
+- MongoDB Atlas M0 account (free tier works)
 
 ### Backend Setup
 
@@ -108,20 +107,19 @@ Strict server-side pagination with `skip()` and `limit()` - only requested data 
    - Update `backend/src/main/resources/application.properties`:
    ```properties
    spring.data.mongodb.uri=your-mongodb-connection-string
-   spring.data.mongodb.database=sales-db
+   spring.data.mongodb.database=retail-sales
+   spring.data.mongodb.auto-index-creation=false
    ```
 
 2. **Prepare Data**
    - Place `sales.csv` in `backend/src/main/resources/data/`
-   - For MongoDB Atlas (512MB free tier): Truncate to ~700K records
-   - Set `spring.data.mongodb.auto-index-creation=false` for Atlas
+   - First run will automatically import data to MongoDB (one-time, takes 2-5 minutes)
 
 3. **Run Backend**
    ```bash
    cd backend
    mvn spring-boot:run
    ```
-   - First run: Automatically imports CSV data (one-time process)
    - Server starts on: `http://localhost:8080`
 
 ### Frontend Setup
@@ -142,15 +140,14 @@ Strict server-side pagination with `skip()` and `limit()` - only requested data 
 
 **Frontend (Vercel):**
 - Automatic deployments from main branch
-- Environment variables configured in Vercel dashboard
+- Set environment variable: `VITE_API_BASE_URL=https://your-backend.onrender.com`
 
 **Backend (Render):**
-- Deployed as Docker container
-- MongoDB Atlas connection string in environment variables
+- Deployed as Docker container using root `Dockerfile`
+- Set environment variable: `MONGODB_URI=your-mongodb-atlas-connection-string`
 - Auto-redeploy on code changes
 
-**Live Demo:** [Add your deployment URL here]
 
 ---
 
-**Built with ❤️ by LoopMaster99**
+**Built with ❤️ by Krishna Bansal**
